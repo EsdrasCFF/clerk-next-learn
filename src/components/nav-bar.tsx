@@ -6,9 +6,10 @@ import { UserButton, useAuth } from '@clerk/nextjs'
 export default function NavBar() {
   const { isLoaded, userId, sessionId, getToken } = useAuth()
 
-  // if (!isLoaded || !userId) {
-  //   return null;
-  // }
+  console.log({isLoaded})
+  console.log({userId})
+  console.log({sessionId})
+ 
 
   return (
     <div className="text-sm w-full">
@@ -17,22 +18,29 @@ export default function NavBar() {
           <li>Home</li>
         </Link>
 
-        <div className="flex gap-5">
-          <Link href='/sign-in'>
-            <li>Login</li>
-          </Link>
+        <div className="flex gap-5 items-center justify-center">
+          {!userId ? (
+            <>
+              <Link href='/sign-in'>
+                <li>Login</li>
+              </Link>
+            
+              <Link href='/sign-up'>
+                <li>SignUp</li>
+              </Link>
+            </>
+          ):(
+            <>
+              <Link href='/profile'>
+                <li>Profile</li>
+              </Link>
+              
+              <Link href='/login' >
+                <UserButton afterSignOutUrl="/" />
+              </Link>
+            </>
+          )}
         
-          <Link href='/sign-up'>
-            <li>SignUp</li>
-          </Link>
-        
-          <Link href='/profile'>
-            <li>Profile</li>
-          </Link>
-          
-          <Link href='/login' >
-            <UserButton afterSignOutUrl="/" />
-          </Link>
         </div>
       </ul>
     </div>
